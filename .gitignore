@@ -144,6 +144,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+city-byte-env/
 
 # Spyder project settings
 .spyderproject

@@ -18,13 +18,12 @@ flake8==5.0.4
 Flask==2.2.2
 Flask-BasicAuth==0.2.0
 Flask-Cors==3.0.10
-gevent==22.10.2
+gevent==23.9.1
 geventhttpclient==2.0.8
 google-api-python-client==2.149.0
 google-auth==2.35.0
 googlemaps==4.10.0
-greenlet==2.0.1
-hiredis==2.0.0
+hiredis==2.2.3
 idna==3.4
 importlib-metadata==5.1.0
 iniconfig==1.1.1
