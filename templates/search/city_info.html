@@ -290,7 +290,7 @@
             </button>
             <button class="btn btn-secondary drop-pin-button" 
                 onClick="dropPinFromCard('{{ place.location.formatted_address }}')">
-                Show on Map
+                Pin on Map
             </button>
             <div class="card-body">
                 <h5 class="card-title">{{ place.name }}</h5>
@@ -315,7 +315,7 @@
             </button>
             <button class="btn btn-secondary drop-pin-button" 
                 onClick="dropPinFromCard('{{ place.location.formatted_address }}')">
-                Show on Map
+                Pin on Map
             </button>
             <div class="card-body">
                 <h5 class="card-title">{{ place.name }}</h5>
@@ -340,7 +340,7 @@
             </button>
             <button class="btn btn-secondary drop-pin-button" 
                 onClick="dropPinFromCard('{{ place.location.formatted_address }}')">
-                Show on Map
+                Pin on Map
             </button>
             <div class="card-body">
                 <h5 class="card-title">{{ place.name }}</h5>
@@ -367,7 +367,7 @@
             </button>
             <button class="btn btn-secondary drop-pin-button" 
                 onClick="dropPinFromCard('{{ place.location.formatted_address }}')">
-                Show on Map
+                Pin on Map
             </button>
             <div class="card-body">
                 <h5 class="card-title">{{ place.name }}</h5>
@@ -467,26 +467,30 @@
     let marker;
 
     function initialMap() {
-        const cityName = "{{ city }}, {{ country }}"; // Get the city and country from the template
+        const cityName = "{{ city }}, {{ country }}";
+        if (!cityName) {
+            console.error("City name or country is missing.");
+            return;
+        }
 
         const geocoder = new google.maps.Geocoder();
 
-        geocoder.geocode({ 'address': cityName }, (results, status) => {
-            if (status === 'OK') {
+        geocoder.geocode({ address: cityName }, (results, status) => {
+            if (status === 'OK' && results.length > 0) {
                 const cityCenter = results[0].geometry.location;
 
                 map = new google.maps.Map(document.getElementById("map"), {
                     zoom: 12,
-                    center: cityCenter
+                    center: cityCenter,
                 });
 
                 marker = new google.maps.Marker({
                     position: cityCenter,
                     map: map,
-                    title: cityName
+                    title: cityName,
                 });
             } else {
-                console.error('Geocode was not successful for the following reason: ' + status);
+                console.error("Geocode was not successful:", status, results);
             }
         });
     }
@@ -494,40 +498,50 @@
     function dropPinFromCard(location) {
         // Set the input value to the location, call dropPin, and scroll to the top of the map
         
-        document.getElementById("location").value = location;
-        dropPin();
+        dropPin(location);
         var target = document.getElementById("map");
         window.scrollTo({ top: target.offsetTop, behavior: 'smooth'})
     }
 
-    async function dropPin() {
-        const locationInput = document.getElementById("location").value;
-
+    async function dropPin(location) {
         try {
-            const response = await fetch(`/info/drop-pin?location=${encodeURIComponent(locationInput)}`);
+            const response = await fetch(`/info/drop-pin?location=${encodeURIComponent(location)}`);
             const data = await response.json();
-            console.log(data);
+
             if (!response.ok) {
                 throw new Error(data.error || "An error occurred");
             }
 
             const { latitude, longitude } = data;
 
-            if (marker) {
-                marker.setMap(null);
+            // Initialize markers array if it doesn't exist
+            if (!window.markers) {
+                window.markers = [];
             }
 
-            // Center the map at the new location
-            map.setCenter({ lat: latitude, lng: longitude });
-
-            // Set a new marker
-            marker = new google.maps.Marker({
+            // Create a new marker
+            let newMarker = new google.maps.Marker({
                 position: { lat: latitude, lng: longitude },
                 map: map,
                 title: data.location
             });
-            
-            map.setZoom(15);
+
+            // Add click listener to remove marker
+            newMarker.addListener('click', function() {
+                newMarker.setMap(null);
+                window.markers = window.markers.filter(m => m !== newMarker);
+            });
+
+            // Add the new marker to the array
+            window.markers.push(newMarker);
+
+            // Adjust map bounds to include all markers
+            let bounds = new google.maps.LatLngBounds();
+            window.markers.forEach(function(marker) {
+                bounds.extend(marker.getPosition());
+            });
+            map.fitBounds(bounds);
+
         } catch (error) {
             alert("Error: " + error.message);
         }
