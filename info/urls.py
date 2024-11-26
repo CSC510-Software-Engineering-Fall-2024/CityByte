@@ -7,6 +7,7 @@ from info.views import (
     drop_pin,
     google_maps_api,
     map_view,
+    all_itineraries_page,
 )
 
 urlpatterns = [
@@ -29,4 +30,5 @@ urlpatterns = [
     path("drop-pin/", drop_pin, name="drop_pin"),  # places a pin on the map
     path("google-maps-api", google_maps_api, name="google_maps_api"),  # Google maps API
     path("map/", map_view, name="map_view"),  # Route for your map view
+    path("all-itineraries/", all_itineraries_page, name="all_itineraries"),
 ]

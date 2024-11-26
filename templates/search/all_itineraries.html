@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4" style= "color: white">All Itineraries</h1>
+    {% if grouped_itineraries %}
+        {% for city, itineraries in grouped_itineraries.items %}
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>{{ city }}</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        {% for itinerary in itineraries %}
+                            <li class="list-group-item">
+                                <strong>{{ itinerary.spot_name }}</strong> - {{ itinerary.category }}<br>
+                                <small>{{ itinerary.address }}</small><br>
+                                {% if itinerary.scheduled_on %}
+                                    <small><b>Scheduled On: </b>{{ itinerary.scheduled_on }}</small><br>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No itineraries available.</p>
+    {% endif %}
+    
+    <a href="{% url 'profile_page' %}" class="btn btn-secondary mt-4">Back to Profile</a>
+</div>
+{% endblock %}

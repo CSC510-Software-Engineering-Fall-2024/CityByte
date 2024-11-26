@@ -2,6 +2,7 @@ from datetime import datetime
 import json
 import pytz
 import googlemaps
+from collections import defaultdict
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 
@@ -321,4 +322,27 @@ def itinerary_page(request):
             "city": city,
             "country": country,
         },
+    )
+
+@login_required
+def all_itineraries_page(request):
+    """
+    Show all itineraries grouped by city for the logged-in user.
+    """
+    # Fetch all itineraries for the logged-in user
+    itineraries = ItineraryItem.objects.filter(user=request.user).order_by("city", "scheduled_on")
+    
+    itineraries_by_city = {}
+    for item in itineraries:
+        if item.city not in itineraries_by_city:
+            itineraries_by_city[item.city] = []
+        itineraries_by_city[item.city].append(item)
+    
+    # Debug: Check if the data is correct
+    print(itineraries_by_city)  # This will show in the server logs
+    # Or return as JSON for a quick debug
+    return render(
+        request,
+        "search/all_itineraries.html",
+        context={"grouped_itineraries": itineraries_by_city},
     )
