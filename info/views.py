@@ -46,9 +46,7 @@ def drop_pin(request):
     """
     Drops a pin on a specified location and returns its details.
     """
-    location = request.GET.get(
-        "location"
-    )  # Expecting a location name or address
+    location = request.GET.get("location")  # Expecting a location name or address
     if not location:
         return JsonResponse({"error": "No location provided"}, status=400)
 
@@ -253,6 +251,7 @@ def profile_page(request):
     )
 
 
+@require_http_methods(["GET"])
 @login_required
 def add_to_itinerary(request, city, spot_name, address, category):
     """Adds a place to the user's itinerary if it's not already in the itinerary."""
@@ -269,14 +268,14 @@ def add_to_itinerary(request, city, spot_name, address, category):
         return JsonResponse(
             {"status": "success", "message": "Added to itinerary."}
         )
-    return JsonResponse(
-        {"status": "error", "message": "Already in itinerary."}
-    )
+    
 
 
 @login_required
 def remove_from_itinerary(request, city, spot_name):
     """Removes a place from the user's itinerary if it exists."""
+    print(city,spot_name,request)
+    print(ItineraryItem.objects)
     item = ItineraryItem.objects.filter(
         user=request.user, city=city, spot_name=spot_name
     ).first()
@@ -285,20 +284,34 @@ def remove_from_itinerary(request, city, spot_name):
         return JsonResponse(
             {"status": "success", "message": "Removed from itinerary."}
         )
-    else:
-        return JsonResponse(
-            {"status": "error", "message": "Item not found."}, status=404
-        )
+    
 
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "POST"])
+@login_required
 def itinerary_page(request):
-    """Retrieves and displays the itinerary items for the specified city and user."""
+    """Retrieves and displays the itinerary items for the specified city and user. Allows updating of scheduled dates."""
     city = request.GET.get("city")
     country = request.GET.get("country")
+
+    if request.method == "POST":
+        # Handle date updates for itinerary items
+        item_id = request.POST.get('item_id')
+        scheduled_on = request.POST.get('scheduled_on')
+        if item_id:
+            try:
+                itinerary_item = ItineraryItem.objects.get(id=item_id, user=request.user)
+                if scheduled_on:
+                    itinerary_item.scheduled_on = scheduled_on
+                else:
+                    itinerary_item.scheduled_on = None  # Allow clearing the date
+                itinerary_item.save()
+            except ItineraryItem.DoesNotExist:
+                pass  # Handle error as needed
+
     itinerary_items = ItineraryItem.objects.filter(
         user=request.user, city=city
-    ).order_by("added_on")
+    ).order_by("scheduled_on", "added_on")
 
     return render(
         request,

@@ -457,6 +457,34 @@
             })
             .catch(error => console.error('Fetch error:', error));
     }
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('itinerary-toggle')) {
+            e.preventDefault(); // Prevent default action
+
+            const button = e.target;
+            const isInItinerary = button.getAttribute('data-in-itinerary') === 'true';
+            const url = isInItinerary ? button.getAttribute('data-url-remove') : button.getAttribute('data-url-add');
+
+            // Make the AJAX request
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Toggle the button text
+                        if (isInItinerary) {
+                            button.textContent = 'Add to Itinerary';
+                            button.setAttribute('data-in-itinerary', 'false');
+                        } else {
+                            button.textContent = 'Remove from Itinerary';
+                            button.setAttribute('data-in-itinerary', 'true');
+                        }
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Fetch error:', error));
+        }
+    });
 });
 
 
@@ -560,6 +588,7 @@
             console.error("Failed to load Google Maps API:", error);
         }
     }
+
 
     window.onload = loadGoogleMapsApi;
 </script>

@@ -37,6 +37,7 @@ class ItineraryItem(models.Model):
     address = models.TextField()
     category = models.CharField(max_length=100)
     added_on = models.DateTimeField(auto_now_add=True)
+    scheduled_on = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.spot_name} in {self.city} - {self.user.username}"
