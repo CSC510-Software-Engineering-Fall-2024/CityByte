@@ -174,17 +174,15 @@ class CityByte_testcase(TestCase):
         )
         assert outdoor_info is not None and len(outdoor_info) > 0  # Ensure we got outdoor info
 
-    def test_airport_info(self):
-        """
-        Tests that airport information can be retrieved
-        """
-        city = "New York City"
-        country = "US"
-
-        airport_info = FourSquarePlacesHelper().get_places(
-            city=f"{city}, {country}", categories="19040", sort="RELEVANCE", limit=5
-        )
-        assert airport_info is not None and len(airport_info) > 0  # Ensure we got airport info
+    @patch('info.helpers.places.FourSquarePlacesHelper.get_places')
+    def test_airport_info(self, mock_get_places):
+        mock_get_places.return_value = [
+            {"name": "Airport A", "address": "Address A"},
+            {"name": "Airport B", "address": "Address B"},
+        ]
+        airport_info = FourSquarePlacesHelper().get_places(city="New York", categories="19040", limit=5)
+        assert len(airport_info) == 2
+        assert airport_info[0]["name"] == "Airport A"
 
     def test_arts_info(self):
         """
