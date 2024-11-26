@@ -12,12 +12,14 @@ from django.test import Client
 from django.urls import reverse
 from search.helpers.photo import UnplashCityPhotoHelper
 from urllib.request import urlopen
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 from info.models import FavCityEntry
 from search.helpers.photo import UnplashCityPhotoHelper
 from urllib.request import urlopen
 from info.models import ItineraryItem
-from django.utils import timezone  # Added import for timezone
+from django.utils import timezone
+
+from search.utils.search import AmadeusCitySearch, GeoDB  # Added import for timezone
 
 image_formats = ("image/png", "image/jpeg", "image/gif")
 
@@ -654,3 +656,52 @@ class InfoViewsTestCase(TestCase):
         self.assertContains(response, 'Paris')
 
 #     # should add more tests relating to the profile page
+class TestGeoDB(TestCase):
+    def setUp(self):
+        # Provide required arguments for the URL class
+        self.url = URL(protocol="https", host="test-geodb.com", port=None)
+        self.geo_db = GeoDB(url=self.url)
+
+    def tearDown(self):
+        self.geo_db = None
+
+    def test_get_city_suggestions_success(self):
+        with patch("requests.request") as mock_request:
+            mock_response = MagicMock()
+            mock_response.json.return_value = {"data": [{"city": "Test City", "country": "Test Country"}]}
+            mock_request.return_value = mock_response
+
+            city_suggestions = self.geo_db.get_city_suggestions(city="Test")
+            self.assertIn("data", city_suggestions)
+            self.assertEqual(city_suggestions["data"][0]["city"], "Test City")
+
+    def test_get_city_suggestions_failure(self):
+        with patch("requests.request") as mock_request:
+            mock_response = MagicMock()
+            mock_response.json.return_value = {"error": "Invalid Request"}
+            mock_request.return_value = mock_response
+
+            city_suggestions = self.geo_db.get_city_suggestions(city="Invalid")
+            self.assertIn("error", city_suggestions)
+            self.assertEqual(city_suggestions["error"], "Invalid Request")
+
+
+class TestAmadeusCitySearch(TestCase):
+    def setUp(self):
+        # Provide required arguments for the URL class
+        self.url = URL(protocol="https", host="test-amadeus.com", port=None)
+        self.city_search = AmadeusCitySearch(url=self.url)
+
+    def tearDown(self):
+        self.city_search = None
+
+    def test_get_city_suggestions_success(self):
+        with patch("requests.request") as mock_request:
+            mock_response = MagicMock()
+            mock_response.json.return_value = {"data": [{"name": "New York"}]}
+            mock_request.return_value = mock_response
+
+            self.city_search._access_token = "test_access_token"
+            city_suggestions = self.city_search.get_city_suggestions(city="New York")
+            self.assertIn("data", city_suggestions)
+            self.assertEqual(city_suggestions["data"][0]["name"], "New York")
