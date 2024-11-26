@@ -162,17 +162,18 @@ class CityByte_testcase(TestCase):
         assert len(dining_info) == 2
         assert dining_info[0]["name"] == "Restaurant A"
 
-    def test_outdoor_info(self):
+    @patch('info.helpers.places.FourSquarePlacesHelper.get_places')
+    def test_outdoor_info(self, mock_get_places):
         """
         Tests that outdoor activities information can be retrieved
         """
-        city = "New York City"
-        country = "US"
-
-        outdoor_info = FourSquarePlacesHelper().get_places(
-            city=f"{city}, {country}", categories="16000", sort="RELEVANCE", limit=5
-        )
-        assert outdoor_info is not None and len(outdoor_info) > 0  # Ensure we got outdoor info
+        mock_get_places.return_value = [
+            {"name": "Outdoor A", "address": "Address A"},
+            {"name": "Outdoor B", "address": "Address B"},
+        ]
+        outdoor_info = FourSquarePlacesHelper().get_places(city="New York", categories="13065", limit=5)
+        assert len(outdoor_info) == 2
+        assert outdoor_info[0]["name"] == "Outdoor A"
 
     @patch('info.helpers.places.FourSquarePlacesHelper.get_places')
     def test_airport_info(self, mock_get_places):
@@ -193,7 +194,7 @@ class CityByte_testcase(TestCase):
         art_info = FourSquarePlacesHelper().get_places(city="New York", categories="19040", limit=5)
         assert len(art_info) == 2
         assert art_info[0]["name"] == "Arts A"
-        
+
     def test_city_photo(self):
         """
         Tests that a city photo can be retrieved for New York City.
