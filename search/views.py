@@ -41,3 +41,8 @@ def city_photo(request):
     """
     photo_link = UnplashCityPhotoHelper().get_city_photo(city=request.GET.get("q"))
     return JsonResponse({"path": photo_link})
+
+
+def locate_me(request):
+    google_maps_api_key = settings.YOUR_GOOGLE_MAPS_API_KEY  # Replace with your API Key
+    return render(request, 'search/locate_me.html', {'google_maps_api_key': google_maps_api_key})

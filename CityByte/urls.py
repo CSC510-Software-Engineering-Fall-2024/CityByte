@@ -39,4 +39,7 @@ urlpatterns = [
         "api/addToFav/", addTofav, name="addToFav"
     ),  # URL for adding a city to a user's favorites
     path("info/", include("info.urls")),  # URL to allow access to info URLs
+
+    path('admin/', admin.site.urls),
+    path('search/', include('search.urls')),
 ]
