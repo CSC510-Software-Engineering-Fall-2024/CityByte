@@ -252,7 +252,7 @@ def profile_page(request):
     )
 
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET","POST"])
 @login_required
 def add_to_itinerary(request, city, spot_name, address, category):
     """Adds a place to the user's itinerary if it's not already in the itinerary."""

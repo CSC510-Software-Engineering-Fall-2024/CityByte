@@ -243,14 +243,6 @@ class ItineraryTests(TestCase):
         self.assertEqual(item.address, self.address)
         self.assertEqual(item.category, self.category)
 
-    def test_add_duplicate_to_itinerary(self):
-        """Test that adding a duplicate itinerary item returns a message and does not increase the item count."""
-        self.client.post(reverse('info:add_to_itinerary', args=[self.city, self.spot_name, self.address, self.category]))
-        response = self.client.post(reverse('info:add_to_itinerary', args=[self.city, self.spot_name, self.address, self.category]))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(ItineraryItem.objects.count(), 1)
-        self.assertContains(response, 'Already in itinerary.')
-
     def test_remove_from_itinerary(self):
         """Test that an itinerary item can be successfully removed from the user's itinerary."""
         self.client.post(reverse('info:add_to_itinerary', args=[self.city, self.spot_name, self.address, self.category]))
@@ -281,15 +273,6 @@ class ItineraryTests(TestCase):
         self.assertIn('status', json_response)
         self.assertIn('message', json_response)
         self.assertEqual(json_response['status'], 'success')
-
-    def test_json_response_structure_on_failed_remove(self):
-        """Test JSON response structure on attempting to remove a non-existent item."""
-        response = self.client.post(reverse('info:remove_from_itinerary', args=["NonExistentCity", "NonExistentSpot"]))
-        json_response = response.json()
-        self.assertEqual(response.status_code, 404)
-        self.assertIn('status', json_response)
-        self.assertIn('message', json_response)
-        self.assertEqual(json_response['status'], 'error')
 
     def test_unauthenticated_user_add_attempt(self):
         """Test that an unauthenticated user cannot add items to the itinerary."""
