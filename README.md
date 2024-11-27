@@ -2,13 +2,13 @@
 
 [![Test](https://github.com/CSC510-Software-Engineering-Fall-2024/CityByte/actions/workflows/django.yml/badge.svg)](https://github.com/CSC510-Software-Engineering-Fall-2024/CityByte/actions/workflows/django.yml)
 [![codecov](https://codecov.io/gh/CSC510-Software-Engineering-Fall-2024/CityByte/branch/main/graph/badge.svg?token=PCOHJETYCD)](https://codecov.io/gh/CSC510-Software-Engineering-Fall-2024/CityByte)
-[![code_size](https://img.shields.io/github/languages/code-size/Gunabana/CityByte)](https://github.com/Gunabana/CityByte) 
-[![repo_size](https://img.shields.io/github/repo-size/Gunabana/CityByte)](https://github.com/Gunabana/CityByte)
+[![code_size](https://img.shields.io/github/languages/code-size/CSC510-Software-Engineering-Fall-2024/CityByte)](https://github.com/CSC510-Software-Engineering-Fall-2024/CityByte) 
+[![repo_size](https://img.shields.io/github/repo-size/CSC510-Software-Engineering-Fall-2024/CityByte)](https://github.com/CSC510-Software-Engineering-Fall-2024/CityByte)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14026837.svg)](https://doi.org/10.5281/zenodo.14026837)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub issues](https://img.shields.io/github/issues/Gunabana/CityByte.svg)](https://GitHub.com/Gunabana/CityByte/issues/)
-[![GitHub issues-closed](https://img.shields.io/github/issues-closed/Gunabana/CityByte.svg)](https://GitHub.com/Gunabana/CityByte/issues?q=is%3Aissue+is%3Aclosed)
-[![GitHub version](https://img.shields.io/github/v/release/Gunabana/CityByte)](https://github.com/Gunabana/CityByte/releases)
+[![GitHub issues](https://img.shields.io/github/issues/CSC510-Software-Engineering-Fall-2024/CityByte.svg)](https://GitHub.com/CSC510-Software-Engineering-Fall-2024/CityByte/issues/)
+[![GitHub issues-closed](https://img.shields.io/github/issues-closed/CSC510-Software-Engineering-Fall-2024/CityByte.svg)](https://GitHub.com/CSC510-Software-Engineering-Fall-2024/CityByte/issues?q=is%3Aissue+is%3Aclosed)
+[![GitHub version](https://img.shields.io/github/v/release/CSC510-Software-Engineering-Fall-2024/CityByte)](https://github.com/CSC510-Software-Engineering-Fall-2024/CityByte/tree/v3.0.0)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Code linting: flake8](https://img.shields.io/badge/code%20linting-flake8-blue.svg)](https://flake8.pycqa.org/en/latest/)
 
@@ -17,12 +17,12 @@
 Ready to explore? CityByte is the perfect tool to prepare for a trip or just virtually wander the globe. We've been hard at work to deliver new features, and we hope you enjoy. Below you can find an explination of recent updates, information about this codebase, and even how to host it yourself!
 
 ### Start Guide
-The start guide can be found in the <a href = https://github.com/Gunabana/CityByte/blob/main/INSTALL.md> INSTALL.md </a> file.
+The start guide can be found in the <a href = https://github.com/CSC510-Software-Engineering-Fall-2024/CityByte/blob/main/INSTALL.md> INSTALL.md </a> file.
 
 ### Updates! - Phase 3
-* Google Account Sign-up and Logins - quick and easy sign-up using Google's authentication services
-* UI Improvements - your eyes will no longer hurt while looking at the site (the bar was low)
-* Trip Itinerary - Save the locations you want to go in each city so you don't forget!
+* Multiple pins on map - quick and easy way to check multiple places one time on the map
+* Sheduling and Organizing Improvements - Itinerary items can now be arranged according to the date and time they have been scheduled at!
+* Summarization of Trip Itinerary - Save the locations you want to go in each city so you don't forget and review all your favorites locations!
 
 #### About CityByte!
 
@@ -32,7 +32,7 @@ https://github.com/user-attachments/assets/b7a2ba46-f55b-457f-b9fd-04b0591ae558
 https://github.com/user-attachments/assets/5005718f-2813-4870-ae0d-4223904f414c
 
 ### Old Project - Phase 1 & 2
-The old project's updates can be seen by going to the `old` branch and navigating to that README. In short, Phase 1 was the project's initial creation via command line and Phase 2 was transitioning to a webapp, creating user accounts, and using caching to reduce system crashes and increase overall speed. 
+The old project's updates can be seen by going to the `old` branch and navigating to that README. In short, Phase 1 was the project's initial creation via command line and Phase 2 was transitioning to a webapp, creating user accounts, and using caching to reduce system crashes and increase overall speed. Project 2 from prior team was trying to add logins, UI improvements and Trip Itinerary.
 
 ## Automatic Tools - GitHub Actions
  
@@ -93,7 +93,11 @@ Please contact us if you experience any problems with the setting up the problem
 <img width = "35px" src = "https://user-images.githubusercontent.com/73664200/194786335-12b1d3a6-b272-4896-9bd7-d615e28847f3.png"/>
 </a>
 
-## Current Team's Members
+## Current Members
+* Dharani Guda - dguda
+* Archismita Ghosh - aghosh7
+
+## Prior Team's Members
 * Brody Bond - bbond
 * Chaitanya Nagulapalli - cknagula
 * Tristan Hall - tdhall6
