@@ -27,7 +27,8 @@ The start guide can be found in the <a href = https://github.com/CSC510-Software
 #### About CityByte!
 
 #### Tech Update
-https://github.com/user-attachments/assets/b7a2ba46-f55b-457f-b9fd-04b0591ae558
+https://www.youtube.com/watch?v=LJNfWGS4qw8
+
 #### Animated pitch
 https://github.com/user-attachments/assets/5005718f-2813-4870-ae0d-4223904f414c
 
