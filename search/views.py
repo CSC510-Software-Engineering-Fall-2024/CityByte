@@ -44,5 +44,8 @@ def city_photo(request):
 
 
 def locate_me(request):
+    """
+    Retrieves location of user as a pin on map
+    """
     google_maps_api_key = settings.YOUR_GOOGLE_MAPS_API_KEY  # Replace with your API Key
     return render(request, 'search/locate_me.html', {'google_maps_api_key': google_maps_api_key})
