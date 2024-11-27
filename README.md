@@ -1,7 +1,7 @@
 # CityByte Project 2
 
-[![Test](https://github.com/Gunabana/CityByte/actions/workflows/django.yml/badge.svg)](https://github.com/Gunabana/CityByte/actions/workflows/django.yml)
-[![codecov](https://codecov.io/gh/Gunabana/CityByte/branch/main/graph/badge.svg?token=PCOHJETYCD)](https://codecov.io/gh/Gunabana/CityByte)
+[![Test](https://github.com/CSC510-Software-Engineering-Fall-2024/CityByte/actions/workflows/django.yml/badge.svg)](https://github.com/CSC510-Software-Engineering-Fall-2024/CityByte/actions/workflows/django.yml)
+[![codecov](https://codecov.io/gh/CSC510-Software-Engineering-Fall-2024/CityByte/branch/main/graph/badge.svg?token=PCOHJETYCD)](https://codecov.io/gh/CSC510-Software-Engineering-Fall-2024/CityByte)
 [![code_size](https://img.shields.io/github/languages/code-size/Gunabana/CityByte)](https://github.com/Gunabana/CityByte) 
 [![repo_size](https://img.shields.io/github/repo-size/Gunabana/CityByte)](https://github.com/Gunabana/CityByte)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14026837.svg)](https://doi.org/10.5281/zenodo.14026837)
