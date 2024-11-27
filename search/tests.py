@@ -575,7 +575,7 @@ class AuthErrorTests(TestCase):
         @patch("django.contrib.auth.models.User.objects.get_or_create", side_effect=Exception("Database error"))  # mock up of database failure
         def mock_user_creation(mock_get_or_create):
             """
-            Tests the user creation
+            Tests the user creation token
             """
             token = "valid_token"
             response = self.client.post(reverse("auth_receiver"), {"credential": token})
