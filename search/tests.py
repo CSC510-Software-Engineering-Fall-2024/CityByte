@@ -598,14 +598,16 @@ class InfoViewsTestCase(TestCase):
     Tests relating to info/views.py
     """
     def setUp(self):
-        """
-        Setup for tests in this class
-        """
-        
+        self.client = Client()
+        self.user = get_user_model().objects.create_user(username="test_user", password="test_password")
+        self.city = "Hyderabad"
+        self.country = "India"
+        self.client.login(username="test_user", password="test_password")
+   
     @patch("os.getenv", return_value="test_google_api_key")
     def test_google_maps_api(self, mock_env):
         response = self.client.get(reverse("google_maps_api"))
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         self.assertIn("script", response.json())
         self.assertIn("test_google_api_key", response.json()["script"])
 
@@ -619,11 +621,11 @@ class InfoViewsTestCase(TestCase):
     @patch("googlemaps.Client.geocode", return_value=[])
     def test_drop_pin_location_not_found(self, mock_geocode):
         response = self.client.get(reverse("drop_pin"), {"location": "Unknown"})
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 404)
 
     def test_drop_pin_no_location(self):
         response = self.client.get(reverse("drop_pin"))
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 400)
 
     def test_add_to_fav(self):
         response = self.client.get(reverse("addToFav"), {"city": self.city, "country": self.country})
@@ -640,7 +642,7 @@ class InfoViewsTestCase(TestCase):
 
     def test_profile_page(self):
         response = self.client.get(reverse("profile_page"))
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "profile/profile.html")
 
     def test_itinerary_page(self):
@@ -650,7 +652,7 @@ class InfoViewsTestCase(TestCase):
 
     def test_all_itineraries_page(self):
         response = self.client.get(reverse("all_itineraries"))
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "search/all_itineraries.html")
 
     def test_add_to_itinerary(self):
